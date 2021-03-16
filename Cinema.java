@@ -1,5 +1,7 @@
 package cinema;
 
+import java.util.Scanner;
+
 public class Cinema {
 
     public static void display(String[][] x) {
@@ -12,7 +14,25 @@ public class Cinema {
     }
 
     public static void main(String[] args) {
-        String[][] sits = new String[8][9];
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number of rows:");
+        int rows = scanner.nextInt();
+        System.out.println("Enter the number of seats in each row:");
+        int seats = scanner.nextInt();
+        int income;
+        int totalSeats = rows * seats;
+        int frontRows = rows / 2;
+        int backRows = rows - frontRows;
+        int backRowsIncome = backRows * seats * 8;
+        int frontRowsIncome = frontRows * seats * 10;
+        if (totalSeats <= 60) {
+            income = totalSeats * 10;
+        } else {
+            income = backRowsIncome + frontRowsIncome;
+        }
+        System.out.println("Total income:");
+        System.out.println("$" + income);
+        String[][] sits = new String[rows + 1][seats + 1];
         String s = "S";
         String sitsNum = "0123456789";
         System.out.println("Cinema:");
@@ -24,6 +44,20 @@ public class Cinema {
                 sits[0][0] = "";
             }
         }
+        display(sits);
+        System.out.println("Enter a row number:");
+        int myRow = scanner.nextInt();
+        System.out.println("Enter a seat number in that row:");
+        int mySeat = scanner.nextInt();
+        if (totalSeats <= 60) {
+            System.out.println("Ticket price: $10");
+        } else if (rows / myRow < 2) {
+            System.out.println("Ticket price: $8");
+        } else {
+            System.out.println("Ticket price: $10");
+        }
+        sits[myRow][mySeat] = "B";
+        System.out.println("Cinema:");
         display(sits);
     }
 }
