@@ -19,19 +19,7 @@ public class Cinema {
         int rows = scanner.nextInt();
         System.out.println("Enter the number of seats in each row:");
         int seats = scanner.nextInt();
-        int income;
         int totalSeats = rows * seats;
-        int frontRows = rows / 2;
-        int backRows = rows - frontRows;
-        int backRowsIncome = backRows * seats * 8;
-        int frontRowsIncome = frontRows * seats * 10;
-        if (totalSeats <= 60) {
-            income = totalSeats * 10;
-        } else {
-            income = backRowsIncome + frontRowsIncome;
-        }
-        System.out.println("Total income:");
-        System.out.println("$" + income);
         String[][] sits = new String[rows + 1][seats + 1];
         String s = "S";
         String sitsNum = "0123456789";
@@ -44,20 +32,38 @@ public class Cinema {
                 sits[0][0] = "";
             }
         }
-        display(sits);
-        System.out.println("Enter a row number:");
-        int myRow = scanner.nextInt();
-        System.out.println("Enter a seat number in that row:");
-        int mySeat = scanner.nextInt();
-        if (totalSeats <= 60) {
-            System.out.println("Ticket price: $10");
-        } else if (rows / myRow < 2) {
-            System.out.println("Ticket price: $8");
-        } else {
-            System.out.println("Ticket price: $10");
+        while (true) {
+        System.out.println("1. Show the seats");
+        System.out.println("2. Buy a ticket");
+        System.out.println("0. Exit");
+        int menu = scanner.nextInt();
+        switch (menu) {
+            case 1:
+                System.out.println("1. Show the seats");
+                System.out.println("Cinema:");
+                display(sits);
+                break;
+            case 2:
+                System.out.println("2. Buy a ticket");
+                System.out.println("Enter a row number:");
+                int myRow = scanner.nextInt();
+                System.out.println("Enter a seat number in that row:");
+                int mySeat = scanner.nextInt();
+                if (totalSeats <= 60) {
+                    System.out.println("Ticket price: $10");
+                } else if (rows / myRow < 2) {
+                    System.out.println("Ticket price: $8");
+                } else {
+                    System.out.println("Ticket price: $10");
+                }
+                sits[myRow][mySeat] = "B";
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Please choose between valid options");
+                break;
         }
-        sits[myRow][mySeat] = "B";
-        System.out.println("Cinema:");
-        display(sits);
+        }
     }
 }
