@@ -1,12 +1,11 @@
 package cinema;
-import java.util.*;
 
 public class Cinema {
 
-    public static void display(String x[][]) {
-        for (int row = 0; row < x.length; row++) {
-            for(int column = 0; column< x[row].length; column++) {
-                System.out.print(x[row][column] + " ");
+    public static void display(String[][] x) {
+        for (String[] strings : x) {
+            for (String string : strings) {
+                System.out.print(string + " ");
             }
             System.out.println();
         }
