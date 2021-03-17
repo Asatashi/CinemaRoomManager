@@ -24,10 +24,8 @@ public class Cinema {
         String[][] sits = new String[rows + 1][seats + 1];
         String s = "S";
         String sitsNum = "0123456789";
-        StringBuilder sitsTaken = new StringBuilder(sits.length);
-        sitsTaken.append(Arrays.deepToString(sits));
         System.out.println("Cinema:");
-        for (int i = 0; i < sits.length; i++) {         //filling 2d array with sits and rows numbers
+        for (int i = 0; i < sits.length; i++) {
             for (int j = 0; j < sits[i].length; j++) {
                 sits[i][j] = s;
                 sits[0][j] = String.valueOf(sitsNum.indexOf(String.valueOf(j)));
@@ -35,6 +33,8 @@ public class Cinema {
                 sits[0][0] = "";
             }
         }
+        StringBuilder sitsTaken = new StringBuilder(sits.length);
+        sitsTaken.append(Arrays.deepToString(sits));
         while (true) {
         System.out.println("1. Show the seats");
         System.out.println("2. Buy a ticket");
@@ -81,32 +81,32 @@ public class Cinema {
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Wrong input!");
                 }
+                sitsTaken.append(Arrays.deepToString(sits));
                 break;
             case 3:
                 //TODO 3. Statistics
                 int tickets = 0;
+                if (tickets == 0) {
                 for (int i = 0; i < sitsTaken.length(); i++) {
                     if (sitsTaken.charAt(i) == 'B') {
                         tickets++;
                     }
                 }
-//                for (int i = 0; i < sits.length; i++) {
-//                    chars[i] = (char) sitsTaken.indexOf(String.valueOf(i));
-//                }
-//
-//                if (Arrays.toString(chars).matches("B")) {
-//                    tickets++;
-//                }
+            }   else { //TODO the tickets are doubling themselfs so i need to think about how to solve it
+                    for (int i = 0; i < sitsTaken.length(); i++) {
+                        if (sitsTaken.charAt(i) == 'B') {
+                            tickets++;
+                        }
+                    }
+                }       //TODO There are also some problems with printing too much income, i have to think about changing it's logic, but the rest seems ok
+                double ticketsAsDouble = tickets;
                 System.out.println("Number of purchased tickets: " + tickets);
-                double percentage = 0;
-                try {
-                    percentage = tickets / (sitsTaken.length() - rows - seats + 1);
-                    double roundedDouble = Math.round(percentage * 100.0) / 100.0;
-                    System.out.println(roundedDouble + "%");
-                } catch (ArithmeticException e) {
-                    System.out.println(percentage + "%");
-                }
-                int currentIncome;
+                double percentage;
+                String percentageSign = "%";
+                percentage = (ticketsAsDouble * 100 / ((double) seats * (double) rows));
+                System.out.printf("Percentage: %.2f%s%n",
+                        percentage, percentageSign);
+                int currentIncome = 0;
                 int income;
                 int allSeats = rows * seats;
                 int frontRows = rows / 2;
@@ -117,24 +117,25 @@ public class Cinema {
                     income = allSeats * 10;
                     for (int i = 0; i < tickets; i++) {
                         currentIncome = i * 10;
-                        System.out.println("Current income: $" + currentIncome);
+                        for (int j = 0; j < 1; j++) {
+                            System.out.println("Current income: $" + currentIncome);
+                        }
                     }
-                } else {
+                } else  {
                     income = backRowsIncome + frontRowsIncome;
                     for (int i = 0; i < tickets; i++) {
-                        try {
                             if (sitsTaken.indexOf("B") < sitsTaken.length() / 2) {
                                 currentIncome = i * 10;
                             } else {
                                 currentIncome = i * 8;
                             }
-                            System.out.println("Current income: $" + currentIncome);
-                        } catch (ArithmeticException e) {
-                            System.out.println("Current income: $0");
-                        }
+                            for (int j = 0; j < 1; j++) {
+                                System.out.println("Current income: $" + currentIncome);
+                            }
                     }
                 }
                 System.out.println("Total income: $" + income);
+                System.out.println("Current income: $" + currentIncome);
                 break;
             case 0:
                 return;
