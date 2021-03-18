@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Cinema {
 
-    public static void display(String[][] x) {
+    public static void display(String[][] x) {      //method to display seats in cinema
         for (String[] strings : x) {
             for (String string : strings) {
                 System.out.print(string + " ");
@@ -35,6 +35,8 @@ public class Cinema {
         }
         StringBuilder sitsTaken = new StringBuilder(sits.length);
         sitsTaken.append(Arrays.deepToString(sits));
+        int tickets = 0;
+        int currentIncome = 0;
         while (true) {
         System.out.println("1. Show the seats");
         System.out.println("2. Buy a ticket");
@@ -49,6 +51,7 @@ public class Cinema {
                 break;
             case 2:
                 try {
+                    tickets++;
                     System.out.println("2. Buy a ticket");
                     System.out.println("Enter a row number:");
                     int myRow = scanner.nextInt();
@@ -63,18 +66,24 @@ public class Cinema {
                         sits[myAnotherRow][myAnotherSeat] = "B";
                         if (totalSeats <= 60) {
                             System.out.println("Ticket price: $10");
+                            currentIncome = currentIncome + 10;
                         } else if (rows / myAnotherRow < 2) {
                             System.out.println("Ticket price: $8");
+                            currentIncome = currentIncome + 8;
                         } else {
                             System.out.println("Ticket price: $10");
+                            currentIncome = currentIncome + 10;
                         }
                     } else {
                         if (totalSeats <= 60) {
                             System.out.println("Ticket price: $10");
+                            currentIncome = currentIncome + 10;
                         } else if (rows / myRow < 2) {
                             System.out.println("Ticket price: $8");
+                            currentIncome = currentIncome + 8;
                         } else {
                             System.out.println("Ticket price: $10");
+                            currentIncome = currentIncome + 10;
                         }
                         sits[myRow][mySeat] = "B";
                     }
@@ -84,21 +93,6 @@ public class Cinema {
                 sitsTaken.append(Arrays.deepToString(sits));
                 break;
             case 3:
-                //TODO 3. Statistics
-                int tickets = 0;
-                if (tickets == 0) {
-                for (int i = 0; i < sitsTaken.length(); i++) {
-                    if (sitsTaken.charAt(i) == 'B') {
-                        tickets++;
-                    }
-                }
-            }   else { //TODO the tickets are doubling themselfs so i need to think about how to solve it
-                    for (int i = 0; i < sitsTaken.length(); i++) {
-                        if (sitsTaken.charAt(i) == 'B') {
-                            tickets++;
-                        }
-                    }
-                }       //TODO There are also some problems with printing too much income, i have to think about changing it's logic, but the rest seems ok
                 double ticketsAsDouble = tickets;
                 System.out.println("Number of purchased tickets: " + tickets);
                 double percentage;
@@ -106,7 +100,6 @@ public class Cinema {
                 percentage = (ticketsAsDouble * 100 / ((double) seats * (double) rows));
                 System.out.printf("Percentage: %.2f%s%n",
                         percentage, percentageSign);
-                int currentIncome = 0;
                 int income;
                 int allSeats = rows * seats;
                 int frontRows = rows / 2;
@@ -115,27 +108,11 @@ public class Cinema {
                 int frontRowsIncome = frontRows * seats * 10;
                 if (allSeats <= 60) {
                     income = allSeats * 10;
-                    for (int i = 0; i < tickets; i++) {
-                        currentIncome = i * 10;
-                        for (int j = 0; j < 1; j++) {
-                            System.out.println("Current income: $" + currentIncome);
-                        }
-                    }
                 } else  {
                     income = backRowsIncome + frontRowsIncome;
-                    for (int i = 0; i < tickets; i++) {
-                            if (sitsTaken.indexOf("B") < sitsTaken.length() / 2) {
-                                currentIncome = i * 10;
-                            } else {
-                                currentIncome = i * 8;
-                            }
-                            for (int j = 0; j < 1; j++) {
-                                System.out.println("Current income: $" + currentIncome);
-                            }
-                    }
                 }
-                System.out.println("Total income: $" + income);
                 System.out.println("Current income: $" + currentIncome);
+                System.out.println("Total income: $" + income);
                 break;
             case 0:
                 return;
